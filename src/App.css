@@ -1,3 +1,38 @@
 .App {
-  text-align: center;
+  margin: 7rem;
+  display: grid;
+  grid-template-columns: 70% auto;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  /* display: flex;
+  flex-direction: row;
+  justify-content: space-evenly; */
+}
+
+.TimerDashboard {
+  grid-column: 1 / 2;
+  justify-self: center;
+}
+
+.NavBar {
+  grid-column: 2 / 3;
+  background-color: #ededed;
+  padding-left: 2rem;
+}
+
+.NavBar h2 {
+  font-size: 100%;
+}
+
+.NavBar li {
+  list-style-position: outside;
+  margin-top: 2%;
+}
+
+.Header img {
+  width: 5rem;
+}
+
+.Header {
+  display: flex;
+  flex-direction: row;
 }
