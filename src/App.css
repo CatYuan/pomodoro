@@ -36,3 +36,106 @@
   display: flex;
   flex-direction: row;
 }
+
+.Timer {
+  padding: 1rem 13rem 5rem;
+  border-style: solid;
+  border-color: #f79fab;
+}
+
+.Timer p, label {
+  text-align: center;
+  font-weight: bold;
+  font-size: 120%;
+}
+
+.Countdown {
+  font-weight: normal;
+  text-align: center;
+  font-size: 400%;
+}
+
+button {
+  display: inline-block;
+  border: none;
+  padding: 1rem 2rem;
+  margin: 0;
+  text-decoration: none;
+  background: #fdfdfd;
+  color: #757575;
+  font-family: inherit;
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: center;
+  font-size: 130%;
+  transition: background 250ms ease-in-out, 
+              transform 150ms ease;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+#Reset:hover,
+#Reset:focus {
+  background: #f79fab;
+  color: rgb(0, 0, 0);
+}
+
+#Reset {
+  border-style: solid;
+  border-color: #f79fab;
+}
+
+#Rest:hover,
+#Rest:focus {
+  background: #9fbbf7;
+  color: rgb(0, 0, 0);
+}
+
+#Rest {
+  border-style: solid;
+  border-color: #9fbbf7;
+}
+
+#Start:hover,
+#Start:focus {
+  background: #9ff7ab;
+  color: rgb(0, 0, 0);
+}
+
+#Start {
+  border-style: solid;
+  border-color: #9ff7ab;
+}
+
+button:focus {
+  outline: 1px solid #fff;
+  outline-offset: -4px;
+}
+
+button:active {
+  transform: scale(0.99);
+}
+
+.EditableTimer {
+  padding: 1rem 13rem 5rem;
+  border-style: solid;
+  border-color: #f79fab;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+input {
+  margin-bottom: 1rem;
+  margin-left: 1rem;
+  padding: 0.5rem;
+}
+
+#project-input {
+  width: 12rem;
+}
+
+.label-input {
+  display: flex;
+  flex-direction: row;
+}

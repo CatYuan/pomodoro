@@ -30,7 +30,7 @@ class TimerDashboard extends React.Component {
       <div className='TimerDashboard'>
         <Header />
         <TimerHolder 
-          canEdit={false}
+          canEdit={true}
         />
       </div>
     );
@@ -64,8 +64,8 @@ class TimerHolder extends React.Component {
     } else {
       return (
         <Timer
-          title='ReactApp'
-          time='60'
+          title='Rest'
+          time='0'
         />
       );
     }
@@ -77,10 +77,15 @@ class EditableTimer extends React.Component {
     const prompt="What do you want to work on?"
     return(
       <div className='EditableTimer'>
-        <label>Project</label>
-        <input type='text' placeholder={prompt} />
-        <input type='time' defaultValue='00:25'/>
-        <button type='submit'>Start</button>
+        <div className='label-input'>
+          <label>Project</label>
+          <input type='text' placeholder={prompt} id='project-input'/>
+        </div>
+        <div className='label-input'>
+          <label>Time (hr:min)</label>
+          <input type='time' defaultValue='00:25' id='time-input'/>
+        </div>
+        <button type='submit' id='Start'>Start</button>
       </div>
     );
   }
@@ -92,7 +97,7 @@ class EditableTimer extends React.Component {
  */
 class Timer extends React.Component {
   render() {
-    if (this.props.time !== 0) {
+    if (this.props.time !== "0") {
       return(
         <div className='Timer'>
           <p>{this.props.title}</p>
@@ -120,10 +125,10 @@ class TimesUp extends React.Component {
     }
 
     return (
-      <div className='TimesUp'>
+      <div className='Timer'>
         <p>{this.props.title}</p>
         <h3 className='Countdown'>0</h3>
-        <button type='button'>{buttonPrompt}</button>
+        <button type='button' id={buttonPrompt}>{buttonPrompt}</button>
       </div>
     );
   }
