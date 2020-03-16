@@ -26,10 +26,23 @@ class App extends React.Component {
       totalTime: 5,
       elapsedTime: 0,
       id: helpers.uuid4(),
-    }
+    };
 
     this.setState({
       activities: this.state.activities.concat(restActivity),
+    });
+  };
+
+  handleStartClick = (activity) => {
+    const newActivity = {
+      title: activity.title,
+      totalTime: activity.totalTime,
+      elapsedTime: activity.elapsedTime,
+      id: activity.id,
+    };
+
+    this.setState({
+      activities: this.state.activities.concat(newActivity),
     });
   };
 
@@ -39,6 +52,7 @@ class App extends React.Component {
         <TimerDashboard
           activities={this.state.activities}
           handleRestClick={() => this.handleRestClick()}
+          handleStartClick={(activity)=>this.handleStartClick(activity)}
         />
         <NavBar
           activities={this.state.activities}
@@ -74,6 +88,7 @@ class NavBar extends React.Component {
 /**
  * @param activities - list of all activities
  * @param handleRestClick
+ * @param handleStartClick
  */
 class TimerDashboard extends React.Component {
   render() {
@@ -83,6 +98,7 @@ class TimerDashboard extends React.Component {
         <TimerHolder 
           activities={this.props.activities}
           handleRestClick={() => this.props.handleRestClick()}
+          handleStartClick={(activity) => this.props.handleStartClick(activity)}
         />
       </div>
     );
@@ -108,6 +124,7 @@ class Header extends React.Component {
  *        otherwise Timer is rendered
  * @ param activities - list of all activities
  * @param handleRestClick
+ * @param handleStartClick
  */
 class TimerHolder extends React.Component {
   state = {
@@ -118,10 +135,17 @@ class TimerHolder extends React.Component {
     this.setState({canEdit: true});
   };
 
+  handleStartClick = (activity) => {
+    this.props.handleStartClick(activity);
+    this.setState({canEdit: false});
+  };
+
   render() {
     if (this.state.canEdit) {
       return(
-        <EditableTimer/>
+        <EditableTimer
+          handleStartClick={(activity) => this.handleStartClick()}
+        />
       );
     } else {
       const activities = this.props.activities;
@@ -141,20 +165,60 @@ class TimerHolder extends React.Component {
   }
 }
 
+/**
+ * @param handleStartClick
+ */
 class EditableTimer extends React.Component {
+  state = {
+    project: '',
+    totalTime: '',
+  }
+
+  handleProjectChange = (e) => {
+    this.setState({project: e.target.value});
+  };
+
+  handleTimeChange = (e) => {
+    this.setState({totalTime: e.target.value});
+  };
+
+  handleStartClick = () => {
+    this.props.handleStartClick({
+      title: this.state.project,
+      totalTime: this.state.totalTime,
+      elapsedTime: 0,
+      id: helpers.uuid4(),
+    });
+  };
+
   render() {
     const prompt="What do you want to work on?"
     return(
       <div className='EditableTimer'>
         <div className='label-input'>
           <label>Project</label>
-          <input type='text' placeholder={prompt} id='project-input'/>
+          <input 
+            type='text' 
+            placeholder={prompt} 
+            id='project-input'
+            onChange={(e) => this.handleProjectChange(e)}  
+          />
         </div>
         <div className='label-input'>
           <label>Time (hr:min)</label>
-          <input type='time' defaultValue='00:25' id='time-input'/>
+          <input 
+            type='time' 
+            defaultValue='00:25' 
+            id='time-input'
+            onChange={(e) => this.handleTimeChange(e)}
+          />
         </div>
-        <button type='submit' id='Start'>Start</button>
+        <button 
+          id='Start'
+          onClick={() => this.handleStartClick()}
+        >
+          Start
+        </button>
       </div>
     );
   }

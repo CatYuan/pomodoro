@@ -19,8 +19,8 @@
 **Things Accomplished**
 * State added to necessary components
 * NavBar refactored
-* Inverse data flow added to Reset and Rest buttons
+* Inverse data flow added to Reset and Rest and Start buttons
 
 **To Do**
-* Add inverse data flow to Start button
+* Debug inverse data flow
 * Make start button only clickable when form is filled out
