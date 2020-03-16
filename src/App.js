@@ -144,7 +144,7 @@ class TimerHolder extends React.Component {
     if (this.state.canEdit) {
       return(
         <EditableTimer
-          handleStartClick={(activity) => this.handleStartClick()}
+          handleStartClick={(activity) => this.handleStartClick(activity)}
         />
       );
     } else {
@@ -183,12 +183,13 @@ class EditableTimer extends React.Component {
   };
 
   handleStartClick = () => {
-    this.props.handleStartClick({
+    const activity = {
       title: this.state.project,
       totalTime: this.state.totalTime,
       elapsedTime: 0,
       id: helpers.uuid4(),
-    });
+    };
+    this.props.handleStartClick(activity);
   };
 
   render() {
