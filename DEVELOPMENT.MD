@@ -14,3 +14,13 @@
 ## 11 March 2020
 **Things Accomplished**
 * General styling added to form and buttons
+
+## 16 March 2020
+**Things Accomplished**
+* State added to necessary components
+* NavBar refactored
+* Inverse data flow added to Reset and Rest buttons
+
+**To Do**
+* Add inverse data flow to Start button
+* Make start button only clickable when form is filled out
