@@ -16,4 +16,4 @@ The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
 
 ## Bugs
-This project is simply a means to practice React, as a result the app is not 100% functional or without bugs. Possible fixes to this app include, dealing with unexpected values (ex. putting letters into the timer, not entering a value into the timer).
+This project is simply a means to practice React, as a result the app is not 100% functional or without bugs. Possible fixes to this app include, dealing with unexpected values (ex. putting letters into the timer, not entering a value into the timer). If there are any major bugs with the app, please leave a comment regarding it, or create a pull request.

@@ -23,4 +23,5 @@
 
 **To Do**
 * Debug inverse data flow
+* Convert value from 'time input' into number of miliseconds
 * Make start button only clickable when form is filled out
