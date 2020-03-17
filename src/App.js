@@ -4,14 +4,7 @@ import * as helpers from "./helpers";
 
 class App extends React.Component {
   state = {
-    activities: [
-      {
-        title: 'Practice React',
-        totalTime: '00:25',
-        startTime: 1529644667834,
-        id: helpers.uuid4(),
-      }
-    ],
+    activities: [],
   };
 
   handleAddActivity = (activity) => {
@@ -22,17 +15,12 @@ class App extends React.Component {
       id: activity.id,
     };
     const newActivities = this.state.activities.concat(newActivity);
-
-    console.log("Old state: " + this.state.activities);
-    console.log("Expected New State: " + newActivities);
-
     this.setState({
       activities: newActivities,
     });
   };
 
   render() {
-    console.log("Actual new state: " + this.state.activities);
     return (
       <div className='App'>
         <TimerDashboard
@@ -129,8 +117,16 @@ class TimerHolder extends React.Component {
   }
 
   handleResetClick = () => {
-    this.setState({canEdit: true});
+    this.setState({
+      canEdit: true,
+      timesUp: false,
+    });
   };
+
+  handleRestClick = (activity) => {
+    this.setState({timesUp: false});
+    this.props.handleAddActivity(activity);
+  }
 
   handleStartClick = (activity) => {
     this.props.handleAddActivity(activity);
@@ -163,7 +159,7 @@ class TimerHolder extends React.Component {
           time={time}
           timesUp={this.state.timesUp}
           handleResetClick={() => this.handleResetClick()}
-          handleAddActivity={(activity) => this.props.handleAddActivity(activity)}
+          handleRestClick={(activity) => this.handleRestClick(activity)}
         />
       );
     }
@@ -246,7 +242,7 @@ class Timer extends React.Component {
         <TimesUpButton
           title={this.props.title}
           handleResetClick={() => this.props.handleResetClick()}
-          handleRestClick={(activity) => this.props.handleAddActivity(activity)}
+          handleRestClick={(activity) => this.props.handleRestClick(activity)}
         />
       );
     } else {
@@ -266,6 +262,16 @@ class Timer extends React.Component {
  * @param handleRestClick
  */
 class TimesUpButton extends React.Component {
+  handleRestClick = () => {
+    const activity = {
+      title: "Rest",
+      totalTime: "00:05",
+      startTime: Date.now(),
+      id: helpers.uuid4(),
+    };
+    this.props.handleRestClick(activity);
+  }
+
   render() {
     var buttonPrompt = "Rest";
     if (this.props.title === "Rest") {
@@ -283,13 +289,7 @@ class TimesUpButton extends React.Component {
             if (buttonPrompt === "Reset") {
               return this.props.handleResetClick();
             } else {
-              const activity = {
-                title: "Rest",
-                totalTime: "00:05",
-                startTime: Date.now(),
-                id: helpers.uuid4(),
-              };
-              return this.props.handleRestClick(activity);
+              return this.handleRestClick();
             }
           }}
         >

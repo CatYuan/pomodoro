@@ -40,6 +40,5 @@
   * Refactor to show seconds on timer
 * Fix bug in timer that shows negative time
   * Create timesUp state in TimerHolder to trigger Timer when time is up - passed as prop
-**To Do**
 * Have the 'Rest' button restart the timer
-  * The new activity updates the state, but it does not render in the timer.
+  * The new activity updates the state, but it does not render in the timer - SOLVED rest/reset button changes 'timesUp' state
