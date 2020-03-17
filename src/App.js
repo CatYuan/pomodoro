@@ -10,49 +10,34 @@ class App extends React.Component {
         totalTime: '00:25',
         startTime: 1529644667834,
         id: helpers.uuid4(),
-      },
-      {
-        title: 'Rest',
-        totalTime: '00:05',
-        startTime: 1583729060383,
-        id: helpers.uuid4(),
       }
     ],
   };
 
-  handleRestClick = () => {
-    const restActivity = {
-      title: 'Rest',
-      totalTime: '00:05',
-      startTime: Date.now(),
-      id: helpers.uuid4(),
-    };
-
-    this.setState({
-      activities: this.state.activities.concat(restActivity),
-    });
-  };
-
-  handleStartClick = (activity) => {
+  handleAddActivity = (activity) => {
     const newActivity = {
       title: activity.title,
       totalTime: activity.totalTime,
       startTime: activity.startTime,
       id: activity.id,
     };
-    
+    const newActivities = this.state.activities.concat(newActivity);
+
+    console.log("Old state: " + this.state.activities);
+    console.log("Expected New State: " + newActivities);
+
     this.setState({
-      activities: this.state.activities.concat(newActivity),
+      activities: newActivities,
     });
   };
 
   render() {
+    console.log("Actual new state: " + this.state.activities);
     return (
       <div className='App'>
         <TimerDashboard
           activities={this.state.activities}
-          handleRestClick={() => this.handleRestClick()}
-          handleStartClick={(activity)=>this.handleStartClick(activity)}
+          handleAddActivity={(activity)=>this.handleAddActivity(activity)}
         />
         <NavBar
           activities={this.state.activities}
@@ -97,8 +82,7 @@ class TimerDashboard extends React.Component {
         <Header />
         <TimerHolder 
           activities={this.props.activities}
-          handleRestClick={() => this.props.handleRestClick()}
-          handleStartClick={(activity) => this.props.handleStartClick(activity)}
+          handleAddActivity={(activity) => this.props.handleAddActivity(activity)}
         />
       </div>
     );
@@ -128,6 +112,10 @@ class Header extends React.Component {
  */
 class TimerHolder extends React.Component {
   state = {
+    /**
+     * Original values: canEdit - true; timesUp - false
+     * Values have been changed for testing purposes
+     */
     canEdit: true,
     timesUp: false,
   }
@@ -145,7 +133,7 @@ class TimerHolder extends React.Component {
   };
 
   handleStartClick = (activity) => {
-    this.props.handleStartClick(activity);
+    this.props.handleAddActivity(activity);
     this.setState({canEdit: false});
   };
 
@@ -175,7 +163,7 @@ class TimerHolder extends React.Component {
           time={time}
           timesUp={this.state.timesUp}
           handleResetClick={() => this.handleResetClick()}
-          handleRestClick={() => this.props.handleRestClick()}
+          handleAddActivity={(activity) => this.props.handleAddActivity(activity)}
         />
       );
     }
@@ -258,7 +246,7 @@ class Timer extends React.Component {
         <TimesUpButton
           title={this.props.title}
           handleResetClick={() => this.props.handleResetClick()}
-          handleRestClick={() => this.props.handleRestClick()}
+          handleRestClick={(activity) => this.props.handleAddActivity(activity)}
         />
       );
     } else {
@@ -278,14 +266,6 @@ class Timer extends React.Component {
  * @param handleRestClick
  */
 class TimesUpButton extends React.Component {
-  handleResetClick = () => {
-    this.props.handleResetClick();
-  };
-
-  handleRestClick = () => {
-    this.props.handleRestClick();
-  };
-
   render() {
     var buttonPrompt = "Rest";
     if (this.props.title === "Rest") {
@@ -301,9 +281,15 @@ class TimesUpButton extends React.Component {
           id={buttonPrompt}
           onClick={() => {
             if (buttonPrompt === "Reset") {
-              return this.handleResetClick();
+              return this.props.handleResetClick();
             } else {
-              return this.handleRestClick();
+              const activity = {
+                title: "Rest",
+                totalTime: "00:05",
+                startTime: Date.now(),
+                id: helpers.uuid4(),
+              };
+              return this.props.handleRestClick(activity);
             }
           }}
         >

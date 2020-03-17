@@ -42,3 +42,4 @@
   * Create timesUp state in TimerHolder to trigger Timer when time is up - passed as prop
 **To Do**
 * Have the 'Rest' button restart the timer
+  * The new activity updates the state, but it does not render in the timer.

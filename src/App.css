@@ -41,6 +41,9 @@
   padding: 1rem 13rem 5rem;
   border-style: solid;
   border-color: #f79fab;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .Timer p, label {
