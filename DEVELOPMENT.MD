@@ -29,3 +29,16 @@
   * Solve for elapsedTime = Date.now() - runningSince
   * Force rerender w/ forceUpdate() and setInterval()
   * clean up with clearInterval()
+
+## 17 March 2020 
+**Things Accomplished**
+* Refactor to make the clock tick
+  * Change elapsedTime state to runningSince = Date.now()
+  * Solve for elapsedTime = Date.now() - runningSince
+  * Force rerender w/ forceUpdate() and setInterval()
+  * clean up with clearInterval()
+  * Refactor to show seconds on timer
+* Fix bug in timer that shows negative time
+  * Create timesUp state in TimerHolder to trigger Timer when time is up - passed as prop
+**To Do**
+* Have the 'Rest' button restart the timer

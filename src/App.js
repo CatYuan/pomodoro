@@ -8,13 +8,13 @@ class App extends React.Component {
       {
         title: 'Practice React',
         totalTime: '00:25',
-        elapsedTime: '00:25',
+        startTime: 1529644667834,
         id: helpers.uuid4(),
       },
       {
         title: 'Rest',
         totalTime: '00:05',
-        elapsedTime: '00:05',
+        startTime: 1583729060383,
         id: helpers.uuid4(),
       }
     ],
@@ -24,7 +24,7 @@ class App extends React.Component {
     const restActivity = {
       title: 'Rest',
       totalTime: '00:05',
-      elapsedTime: '00:00',
+      startTime: Date.now(),
       id: helpers.uuid4(),
     };
 
@@ -37,7 +37,7 @@ class App extends React.Component {
     const newActivity = {
       title: activity.title,
       totalTime: activity.totalTime,
-      elapsedTime: activity.elapsedTime,
+      startTime: activity.startTime,
       id: activity.id,
     };
     
@@ -129,6 +129,15 @@ class Header extends React.Component {
 class TimerHolder extends React.Component {
   state = {
     canEdit: true,
+    timesUp: false,
+  }
+
+  componentDidMount() {
+    this.forceUpdateInterval = setInterval(() => this.forceUpdate(), 50);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.forceUpdateInterval);
   }
 
   handleResetClick = () => {
@@ -138,6 +147,10 @@ class TimerHolder extends React.Component {
   handleStartClick = (activity) => {
     this.props.handleStartClick(activity);
     this.setState({canEdit: false});
+  };
+
+  handleTimesUp = () => {
+    this.setState({timesUp: true});
   };
 
   render() {
@@ -150,13 +163,17 @@ class TimerHolder extends React.Component {
     } else {
       const activities = this.props.activities;
       const title = activities[activities.length - 1].title;
-      const elapsedTime = activities[activities.length - 1].elapsedTime;
+      const startTime = activities[activities.length - 1].startTime;
       const totalTime = activities[activities.length - 1].totalTime;
-      const time = helpers.renderTimeRemaining(totalTime, elapsedTime);
+      const time = helpers.renderTimeRemaining(totalTime, startTime);
+      if (time === "00:00:00" && this.state.timesUp === false) {
+        this.handleTimesUp();
+      }
       return (
         <Timer
           title={title}
           time={time}
+          timesUp={this.state.timesUp}
           handleResetClick={() => this.handleResetClick()}
           handleRestClick={() => this.props.handleRestClick()}
         />
@@ -187,7 +204,7 @@ class EditableTimer extends React.Component {
       const activity = {
         title: this.state.project,
         totalTime: this.state.totalTime,
-        elapsedTime: '00:00',
+        startTime: Date.now(),
         id: helpers.uuid4(),
       };
       this.props.handleStartClick(activity);
@@ -232,23 +249,24 @@ class EditableTimer extends React.Component {
  * @param int time - the number of seconds on the timer
  * @param handleResetClick
  * @param handleRestClick
+ * @param timesUp
  */
 class Timer extends React.Component {
   render() {
-    if (this.props.time !== '00:00') {
-      return(
-        <div className='Timer'>
-          <p>{this.props.title}</p>
-          <h3 className='Countdown'>{this.props.time}</h3>
-        </div>
-      );
-    } else {
+    if (this.props.timesUp) {
       return(
         <TimesUpButton
           title={this.props.title}
           handleResetClick={() => this.props.handleResetClick()}
           handleRestClick={() => this.props.handleRestClick()}
         />
+      );
+    } else {
+      return(
+        <div className='Timer'>
+          <p>{this.props.title}</p>
+          <h3 className='Countdown'>{this.props.time}</h3>
+        </div>
       );
     }
   }
@@ -277,7 +295,7 @@ class TimesUpButton extends React.Component {
     return (
       <div className='Timer'>
         <p>{this.props.title}</p>
-        <h3 className='Countdown'>00:00</h3>
+        <h3 className='Countdown'>00:00:00</h3>
         <button 
           type='button' 
           id={buttonPrompt}

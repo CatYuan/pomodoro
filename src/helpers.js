@@ -8,31 +8,35 @@ export function uuid4(){
   return uuid;
 }
 
-/**
- * Finds the time remaining and formats it in (hrs:min)
- * @param {string} formattedTotal 
- * @param {string} formattedElapsed 
- */
-export function renderTimeRemaining(formattedTotal, formattedElapsed) {
-  const totalMinutes = getMinutes(formattedTotal);
-  const elapsedMinutes = getMinutes(formattedElapsed);
-  const timeRemaining = totalMinutes - elapsedMinutes;
-  var hrs = 0;
-  var min = timeRemaining;
-  if (timeRemaining > 59) {
-    hrs = Math.floor(timeRemaining/60);
-    min = timeRemaining - hrs*60;
-  }
-  return formatLeadingZero(hrs)+':'+formatLeadingZero(min);
-}
-
-function getMinutes(formattedString) {
-  var time = formattedString.split(':');
-  var hours = parseInt(time[0]);
-  var min = parseInt(time[1]);
-  return hours*60 + min;
-}
-
 function formatLeadingZero(num) {
   return num < 10 ? '0'+num : num;
+}
+
+/**
+ * Returns the elapsed time in milliseconds
+ * @param {int} startTime  - milliseconds from January 1, 1970, 00:00:00 UTC
+ */
+function getElapsedMS(startTime) {
+  const curTime = Date.now();
+  return curTime - startTime;
+}
+
+export function renderTimeRemaining(totalTime, startTime) {
+  var elapsedMS = getElapsedMS(startTime);
+
+  //converting totalTime to milliseconds
+  var totalTimeArray = totalTime.split(':');
+  const totalMin = parseInt(totalTimeArray[1]) + parseInt(totalTimeArray[0]) * 60;
+  const totalMS = totalMin * 60000;
+
+  var remainingMS = totalMS - elapsedMS;
+
+  //formatting it for display
+  var remainingSec = Math.floor(remainingMS / 1000);
+  var remainingMin = Math.floor(remainingSec / 60);
+  remainingSec = remainingSec - remainingMin * 60;
+  var remainingHr = Math.floor(remainingMin / 60);
+  remainingMin = remainingMin - remainingHr*60;
+
+  return formatLeadingZero(remainingHr) + ':' + formatLeadingZero(remainingMin) + ':' + formatLeadingZero(remainingSec);
 }
