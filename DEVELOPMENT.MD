@@ -20,8 +20,12 @@
 * State added to necessary components
 * NavBar refactored
 * Inverse data flow added to Reset and Rest and Start buttons
-
-**To Do**
+* Make start button only clickable when form is filled out
 * Debug inverse data flow
 * Convert value from 'time input' into number of miliseconds
-* Make start button only clickable when form is filled out
+**To Do**
+* Refactor to make the clock tick
+  * Change elapsedTime state to runningSince = Date.now()
+  * Solve for elapsedTime = Date.now() - runningSince
+  * Force rerender w/ forceUpdate() and setInterval()
+  * clean up with clearInterval()
