@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
-import * as helpers from "./helpers";
+import * as helpers from './helpers';
+import beep from './Beep_Short.mp3';
 
 class App extends React.Component {
   state = {
@@ -100,10 +101,6 @@ class Header extends React.Component {
  */
 class TimerHolder extends React.Component {
   state = {
-    /**
-     * Original values: canEdit - true; timesUp - false
-     * Values have been changed for testing purposes
-     */
     canEdit: true,
     timesUp: false,
   }
@@ -138,6 +135,11 @@ class TimerHolder extends React.Component {
   };
 
   render() {
+    if (this.state.timesUp) {
+      const beepAudio = new Audio(beep);
+      beepAudio.play();
+    }
+
     if (this.state.canEdit) {
       return(
         <EditableTimer
