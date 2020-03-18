@@ -1,6 +1,8 @@
 # Pomodoro
 The pomodoro technique is a method that can be used for studying, where one alternates between 25 minute intervals of work and 5 minute intervals of rest. The goal of this app is to help implement this study method.
 
+You can visit the site (here)[https://catyuan.github.io/pomodoro/].
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ### `yarn start`
