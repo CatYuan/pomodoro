@@ -174,15 +174,23 @@ class TimerHolder extends React.Component {
 class EditableTimer extends React.Component {
   state = {
     project: '',
-    totalTime: '00:25',
+    totalTime: '00:25'
   }
 
   handleProjectChange = (e) => {
     this.setState({project: e.target.value});
   };
 
-  handleTimeChange = (e) => {
-    this.setState({totalTime: e.target.value});
+  handleHourChange = (e) => {
+    const currMin = this.state.totalTime.split(':')[1];
+    const newTotalTime = helpers.formatLeadingZero(e.target.value) + ':' + helpers.formatLeadingZero(currMin);
+    this.setState({totalTime:newTotalTime});
+  };
+
+  handleMinChange = (e) => {
+    const currHour = this.state.totalTime.split(':')[0];
+    const newTotalTime = helpers.formatLeadingZero(currHour) + ':' + helpers.formatLeadingZero(e.target.value);
+    this.setState({totalTime: newTotalTime});
   };
 
   handleStartClick = () => {
@@ -194,6 +202,8 @@ class EditableTimer extends React.Component {
         id: helpers.uuid4(),
       };
       this.props.handleStartClick(activity);
+    } else {
+      alert('Please enter a project that you want to complete.');
     }
   };
 
@@ -213,10 +223,18 @@ class EditableTimer extends React.Component {
         <div className='label-input'>
           <label>Time (hr:min)</label>
           <input 
-            type='time' 
-            defaultValue='00:25' 
-            id='time-input'
-            onChange={(e) => this.handleTimeChange(e)}
+            type='number' 
+            defaultValue='00' 
+            className='time-input'
+            min='0'
+            onChange={(e) => this.handleHourChange(e)}
+          /> :
+          <input 
+            type='number' 
+            defaultValue='25' 
+            className='time-input'
+            min='1'
+            onChange={(e) => this.handleMinChange(e)}
           />
         </div>
         <button 

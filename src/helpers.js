@@ -8,7 +8,8 @@ export function uuid4(){
   return uuid;
 }
 
-function formatLeadingZero(num) {
+export function formatLeadingZero(num) {
+  num = parseInt(num);
   return num < 10 ? '0'+num : num;
 }
 

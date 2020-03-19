@@ -142,3 +142,7 @@ input {
   display: flex;
   flex-direction: row;
 }
+
+.time-input {
+  width: 2rem;
+}
